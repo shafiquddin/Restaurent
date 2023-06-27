@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import Header from "./Components/Layout/Header";
 import Meals from "./Components/Meals/Meals";
 import Cart from "./Components/Cart/Cart";
+import CartContext from "./Store/Cart-Context";
 
 function App() {
+  const ctx = useContext(CartContext);
   return (
     <div>
-      <Cart />
+      {ctx.showCart && <Cart />}
       <Header />
       <main>
         <Meals />

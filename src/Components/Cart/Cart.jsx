@@ -1,26 +1,33 @@
-import Model from "../UI/Model";
+import React, { useContext } from "react";
 import classes from "./Cart.module.css";
+import Modal from "../UI/Modal";
+import CartContext from "../../Store/Cart-Context";
 
 const Cart = () => {
-  const cartItem = (
+  const ctx = useContext(CartContext);
+  console.log(ctx.items);
+  const cartIems = (
     <ul className={classes["cart-items"]}>
-      {[{ id: "c1", name: "Shushi", amount: 2, price: 12.99 }].map((item) => (
+      {ctx.items.map((item) => (
         <li key={item.id}>{item.name}</li>
       ))}
     </ul>
   );
   return (
-    <Model>
-      {cartItem}
+    <Modal>
+      {cartIems}
       <div className={classes.total}>
-        <span>Total Amount</span>
-        <span>35.62</span>
+        <div>Total Amount</div>
+        <div>35.95</div>
       </div>
       <div className={classes.actions}>
-        <button className={classes["button__alt"]}>Close</button>
-        <button className={classes.button}>Order</button>
+        <button className={classes["button--alt"]} onClick={ctx.onHide}>
+          close
+        </button>
+        <button className={classes.button}>Submit</button>
       </div>
-    </Model>
+    </Modal>
   );
 };
+
 export default Cart;

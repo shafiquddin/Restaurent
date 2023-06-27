@@ -1,17 +1,11 @@
 import classes from "./Input.module.css";
-import React, { useState } from "react";
-const Input = (props) => {
-  const [defaultValue, setDefaultValue] = useState("1");
-  const changeHandler = (event) => {
-    setDefaultValue(+event.target.value);
-
-  };
-  console.log(defaultValue);
+import React from "react";
+const Input = React.forwardRef((props, ref) => {
   return (
     <div className={classes.input}>
       <label htmlFor={props.input.id}>{props.label}</label>
-      <input {...props.input} onChange={changeHandler} />
+      <input {...props.input} ref={ref} />
     </div>
   );
-};
+});
 export default Input;
