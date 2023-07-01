@@ -2,14 +2,28 @@ import React, { useContext } from "react";
 import classes from "./Cart.module.css";
 import Modal from "../UI/Modal";
 import CartContext from "../../Store/Cart-Context";
+import CartIem from "./CartItem";
 
 const Cart = () => {
   const ctx = useContext(CartContext);
-  console.log(ctx.items);
+  const totalAmount = `$${ctx.totalAmount.toFixed(2)}`;
+  const onAddHandler = (item) => {
+    ctx.addItem(item);
+  };
+  const onRemoveHandler = (id) => {
+    ctx.removeItem(id);
+  };
   const cartIems = (
     <ul className={classes["cart-items"]}>
       {ctx.items.map((item) => (
-        <li key={item.id}>{item.name}</li>
+        <CartIem
+          key={item.id}
+          name={item.name}
+          price={item.price}
+          amount={item.amount}
+          onAdd={onAddHandler.bind(null, item)}
+          onRemove={onRemoveHandler.bind(null, item.id)}
+        />
       ))}
     </ul>
   );
@@ -18,13 +32,15 @@ const Cart = () => {
       {cartIems}
       <div className={classes.total}>
         <div>Total Amount</div>
-        <div>35.95</div>
+        <div>{totalAmount}</div>
       </div>
       <div className={classes.actions}>
         <button className={classes["button--alt"]} onClick={ctx.onHide}>
           close
         </button>
-        <button className={classes.button}>Submit</button>
+        {ctx.items.length > 0 && (
+          <button className={classes.button}>Order</button>
+        )}
       </div>
     </Modal>
   );
